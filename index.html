@@ -429,8 +429,9 @@
     </div>
     <h2>請輸入你的名字 / 暱稱</h2>
     <input class="name-input" id="nameInput" placeholder="例如：小明、Morgan…" maxlength="10">
+    <input class="name-input" id="passInput" type="password" inputmode="numeric" placeholder="請輸入入場密碼" maxlength="4" style="margin-top:10px">
     <button class="btn-enter" onclick="enterApp()">進入點餐 🧋</button>
-    <p class="hint">輸入後大家的訂單會即時同步顯示</p>
+    <p class="hint">請輸入名字與密碼後進入，大家的訂單會即時同步顯示</p>
   </div>
 </div>
 
@@ -619,6 +620,10 @@ const MENU = [
 const FIREBASE_URL = "https://order-31e64-default-rtdb.firebaseio.com";
 // ══════════════════════════════════════════
 
+if (!/^https:\/\/.+\.firebaseio\.com$/.test(FIREBASE_URL)) {
+  console.warn('Firebase 網址格式看起來不對，請確認 FIREBASE_URL。');
+}
+
 function showToast(msg, isError=false) {
   let t = document.getElementById('toast');
   if (!t) {
@@ -664,15 +669,24 @@ async function fbAdd(order) {
 }
 async function fbDelete(id) {
   try {
-    await fetch(`${FIREBASE_URL}/orders/${id}.json`, { method: 'DELETE' });
-  } catch(e) { console.error(e); }
+    const r = await fetch(`${FIREBASE_URL}/orders/${id}.json`, { method: 'DELETE' });
+    if (!r.ok) {
+      showToast('❌ 刪除失敗：' + r.status, true);
+      return false;
+    }
+    showToast('🗑️ 已刪除訂單');
+    return true;
+  } catch(e) {
+    console.error(e);
+    showToast('❌ 刪除失敗，請檢查網路', true);
+    return false;
+  }
 }
 
 // ── STATE ──
 let myName = "";
 let currentItem = null;
 let selectedSize = null;
-let selectedSizes = {};
 let selectedToppings = [];
 const PERSON_COLORS = ["#3a6b4a","#c94040","#1a5276","#7d3c98","#ca6f1e","#1a7a50","#6e2f8c","#a04000"];
 
@@ -686,8 +700,13 @@ function uid() {
 }
 
 // ── INIT ──
+const ACCESS_PASSWORD = "8681";
+
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') enterApp();
+  });
+  document.getElementById('passInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') enterApp();
   });
   renderMenu();
@@ -696,7 +715,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function enterApp() {
   const n = document.getElementById('nameInput').value.trim();
+  const pw = document.getElementById('passInput').value.trim();
   if (!n) { document.getElementById('nameInput').focus(); return; }
+  if (pw !== ACCESS_PASSWORD) {
+    showToast('❌ 密碼錯誤', true);
+    document.getElementById('passInput').focus();
+    document.getElementById('passInput').select();
+    return;
+  }
   myName = n;
   document.getElementById('userBadge').textContent = '👤 ' + n;
   document.getElementById('nameScreen').style.display = 'none';
@@ -734,7 +760,8 @@ function renderMenu() {
           const prices = Object.entries(item.prices);
           const priceStr = prices.map(([s,p]) => `${s} $${p}`).join(' / ');
           const tags = (item.tags||[]).map(t => `<span class="tag ${t.includes('固定')||t.includes('一分')||t.includes('5分')?'warn':''}">${t}</span>`).join('');
-          return `<div class="menu-item" onclick="openModal(${JSON.stringify(JSON.stringify({...item, catSizes: cat.sizes}))})">
+          const modalPayload = JSON.stringify({...item, catSizes: cat.sizes}).replace(/'/g, "&#39;");
+          return `<div class="menu-item" onclick='openModal(${modalPayload})'>
             <div class="plus-btn">+</div>
             <div class="item-name">${item.name}</div>
             ${item.en ? `<div class="item-en">${item.en}</div>` : ''}
@@ -749,14 +776,16 @@ function renderMenu() {
 
 // ── MODAL ──
 let currentCatSizes = ["M","L"];
-function openModal(jsonStr) {
-  if (!myName) return;
-  const item = JSON.parse(jsonStr);
+function openModal(item) {
+  if (!myName) {
+    showToast('請先輸入名字再點餐～', true);
+    document.getElementById('nameInput').focus();
+    return;
+  }
   currentItem = item;
   currentCatSizes = item.catSizes || ["M","L"];
   selectedSize = null;
   selectedToppings = [];
-  selectedSizes = {};
 
   document.getElementById('modalName').textContent = item.name;
   document.getElementById('modalEn').textContent = item.en || '';
@@ -767,6 +796,9 @@ function openModal(jsonStr) {
     .map(s => `<div class="chip" onclick="selectChip(this,'size')" data-size="${s}">${s}杯 $${item.prices[s]}</div>`)
     .join('');
   document.getElementById('sizeChips').innerHTML = sizeHtml;
+
+  const firstSizeChip = document.querySelector('#sizeChips .chip');
+  if (firstSizeChip) firstSizeChip.classList.add('selected');
 
   // reset sugar/ice
   document.querySelectorAll('#sugarChips .chip').forEach((c,i) => c.classList.toggle('selected', i===0));
@@ -916,8 +948,8 @@ function orderCard(o, canDelete) {
 }
 
 async function deleteOrder(id) {
-  await fbDelete(id);
-  refreshOrders();
+  const ok = await fbDelete(id);
+  if (ok) refreshOrders();
 }
 
 function updateBadges(myCount, allCount) {
