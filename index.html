@@ -619,24 +619,53 @@ const MENU = [
 const FIREBASE_URL = "https://order-31e64-default-rtdb.firebaseio.com";
 // ══════════════════════════════════════════
 
+function showToast(msg, isError=false) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:20px;font-size:14px;z-index:9999;max-width:90vw;text-align:center;transition:opacity .3s';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = isError ? '#c94040' : '#3a6b4a';
+  t.style.color = 'white';
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.opacity = '0', 3000);
+}
+
 async function fbGet() {
   try {
-    if (FIREBASE_URL.includes("請填入")) { alert("⚠️ 請先在 index.html 裡填入你的 Firebase 網址！"); return []; }
     const r = await fetch(`${FIREBASE_URL}/orders.json`);
+    if (!r.ok) { showToast('❌ 資料庫連線失敗：' + r.status, true); return []; }
     const data = await r.json();
     if (!data) return [];
     return Object.values(data);
-  } catch(e) { console.error(e); return []; }
+  } catch(e) {
+    showToast('❌ 無法連線 Firebase，請檢查網路', true);
+    console.error(e); return [];
+  }
 }
 async function fbAdd(order) {
-  await fetch(`${FIREBASE_URL}/orders/${order.id}.json`, {
-    method: 'PUT',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(order)
-  });
+  try {
+    const r = await fetch(`${FIREBASE_URL}/orders/${order.id}.json`, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(order)
+    });
+    if (!r.ok) { showToast('❌ 儲存失敗：' + r.status + '（請確認 Firebase 規則設為測試模式）', true); return false; }
+    showToast('✅ 已加入訂單！');
+    return true;
+  } catch(e) {
+    showToast('❌ 網路錯誤，請重試', true);
+    console.error(e); return false;
+  }
 }
 async function fbDelete(id) {
-  await fetch(`${FIREBASE_URL}/orders/${id}.json`, { method: 'DELETE' });
+  try {
+    await fetch(`${FIREBASE_URL}/orders/${id}.json`, { method: 'DELETE' });
+  } catch(e) { console.error(e); }
 }
 
 // ── STATE ──
@@ -803,7 +832,8 @@ async function addToOrder() {
     ts: Date.now()
   };
 
-  await fbAdd(order);
+  const ok = await fbAdd(order);
+  if (!ok) return;
   document.getElementById('modalOverlay').classList.remove('open');
   refreshOrders();
 }
