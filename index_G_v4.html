@@ -536,50 +536,6 @@
     padding: 4px 8px;
   }
 
-
-  .summary-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .summary-btn {
-    border: none;
-    background: var(--green);
-    color: white;
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'Noto Sans TC', sans-serif;
-  }
-  .summary-btn.secondary {
-    background: white;
-    color: var(--green);
-    border: 1px solid var(--green-light);
-  }
-  .summary-btn:hover { opacity: .92; }
-  .summary-textbox {
-    width: 100%;
-    min-height: 180px;
-    margin-top: 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 14px;
-    resize: vertical;
-    background: #fff;
-    color: var(--text);
-    font-size: 13px;
-    line-height: 1.7;
-    font-family: 'Noto Sans TC', sans-serif;
-  }
-  .summary-caption {
-    margin-top: 8px;
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
   /* scrollbar */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -601,7 +557,7 @@
     <input class="name-input" id="nameInput" placeholder="例如：小明、Morgan…" maxlength="10">
     <input class="name-input" id="passInput" type="password" inputmode="numeric" placeholder="請輸入入場密碼" maxlength="4" style="margin-top:10px">
     <button class="btn-enter" onclick="enterApp()">進入點餐 🧋</button>
-    <p class="hint">請輸入名字與密碼後進入，大家的訂單會即時同步顯示<br><span style="font-size:11px;color:#999">版本：2026-03-24-v6-order-export</span></p>
+    <p class="hint">請輸入名字與密碼後進入，大家的訂單會即時同步顯示<br><span style="font-size:11px;color:#999">版本：2026-03-24-v4-summary</span></p>
   </div>
 </div>
 
@@ -700,7 +656,7 @@
 </div>
 
 <script>
-const APP_VERSION = "2026-03-24-v6-order-export";
+const APP_VERSION = "2026-03-24-v4-summary";
 console.log("DragonHorn app version:", APP_VERSION);
 const MENU = [
   {
@@ -919,7 +875,6 @@ function enterApp() {
 // ── TABS ──
 let currentTab = 'menu';
 let cachedOrders = [];
-let currentExportMode = 'simple';
 function switchTab(tab, el) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1064,13 +1019,11 @@ async function addToOrder() {
 // ── ORDERS ──
 async function refreshOrders() {
   const all = await fbGet();
-  cachedOrders = Array.isArray(all) ? all : [];
 
-  const mine = cachedOrders.filter(o => o.person === myName);
-  renderMyOrders(mine, cachedOrders);
-  renderAllOrders(cachedOrders);
-  renderSummary(cachedOrders);
-  updateBadges(mine.length, cachedOrders.length);
+  const mine = all.filter(o => o.person === myName);
+  renderMyOrders(mine, all);
+  renderAllOrders(all);
+  updateBadges(mine.length, all.length);
   updateCartBtn(mine.length);
 }
 
@@ -1157,84 +1110,6 @@ function getSummaryFilters() {
   };
 }
 
-
-function buildOrderExportText(orders, filters, mode = 'simple') {
-  const list = Array.isArray(orders) ? orders : [];
-  if (!list.length) return '目前沒有可輸出的點餐資料';
-
-  const title = filters?.person && filters.person !== 'ALL'
-    ? `【龍角點餐統整｜${filters.person}】`
-    : '【龍角點餐統整】';
-
-  const map = {};
-  list.forEach(o => {
-    const toppings = Array.isArray(o.toppings) ? o.toppings.map(t => String(t).split(' ')[0]) : [];
-    const toppingText = toppings.length ? `｜加料 ${toppings.join('、')}` : '';
-    const optionText = `｜${o.sugar || '正常'}糖・${o.ice || '正常'}冰${toppingText}`;
-    const key = mode === 'detail'
-      ? `${o.name || '未命名飲品'}||${o.size || ''}||${optionText}`
-      : `${o.name || '未命名飲品'}||${o.size || ''}`;
-    if (!map[key]) {
-      map[key] = {
-        name: o.name || '未命名飲品',
-        size: o.size || '',
-        qty: 0,
-        total: 0,
-        optionText,
-        people: new Set(),
-      };
-    }
-    map[key].qty += 1;
-    map[key].total += Number(o.total || 0);
-    map[key].people.add(o.person || '未命名');
-  });
-
-  const rows = Object.values(map).sort((a,b) => b.qty - a.qty || b.total - a.total || a.name.localeCompare(b.name, 'zh-Hant'));
-  const lines = rows.map((row, idx) => {
-    const sizeText = row.size ? ` ${row.size}` : '';
-    const extra = mode === 'detail' ? `${row.optionText}` : '';
-    return `${idx + 1}. ${row.name}${sizeText} × ${row.qty}${extra}`;
-  });
-
-  const totalQty = list.length;
-  const totalAmount = list.reduce((sum, o) => sum + Number(o.total || 0), 0);
-  const peopleCount = new Set(list.map(o => o.person || '未命名')).size;
-  const keywordLine = filters?.keyword ? `關鍵字：${filters.keyword}` : null;
-
-  return [
-    title,
-    ...keywordLine ? [keywordLine] : [],
-    ...lines,
-    '—'.repeat(16),
-    `共 ${totalQty} 杯｜總額 $${totalAmount}｜${peopleCount} 人`,
-    mode === 'simple' ? '※ 精簡版：依「品項＋尺寸」彙整，甜度冰塊與加料未展開。' : '※ 詳細版：已展開甜度／冰塊／加料差異。'
-  ].join('\n');
-}
-
-function setExportMode(mode) {
-  currentExportMode = mode === 'detail' ? 'detail' : 'simple';
-  renderSummary(cachedOrders);
-}
-
-async function copyOrderExport() {
-  const box = document.getElementById('orderExportText');
-  if (!box) return;
-  const text = box.value || '';
-  if (!text.trim()) {
-    showToast('目前沒有可複製的內容', true);
-    return;
-  }
-  try {
-    await navigator.clipboard.writeText(text);
-    showToast(currentExportMode === 'detail' ? '📋 已複製詳細版下單文字' : '📋 已複製精簡版下單文字');
-  } catch (e) {
-    box.focus();
-    box.select();
-    document.execCommand('copy');
-    showToast('📋 已複製下單文字');
-  }
-}
-
 function renderSummary(all) {
   const v = document.getElementById('summaryView');
   const previous = getSummaryFilters();
@@ -1304,7 +1179,6 @@ function renderSummary(all) {
   const totalAmount = filtered.reduce((sum, o) => sum + Number(o.total || 0), 0);
   const uniqueItems = itemRows.length;
   const uniquePeople = new Set(filtered.map(o => o.person || '未命名')).size;
-  const exportText = buildOrderExportText(filtered, previous, currentExportMode);
 
   v.innerHTML = `
     <div class="summary-toolbar">
@@ -1342,20 +1216,6 @@ function renderSummary(all) {
         <div class="label">點餐人數</div>
         <div class="value">${uniquePeople}</div>
         <div class="sub">有下單的人</div>
-      </div>
-    </div>
-
-    <div class="summary-section">
-      <div class="summary-section-title">📝 店家下單格式</div>
-      <div class="summary-card">
-        <div class="summary-item-meta">可以直接複製給店家。精簡版適合快速喊單；詳細版會保留甜度、冰塊與加料差異。</div>
-        <div class="summary-actions">
-          <button class="summary-btn ${currentExportMode === 'simple' ? '' : 'secondary'}" onclick="setExportMode('simple')">精簡版</button>
-          <button class="summary-btn ${currentExportMode === 'detail' ? '' : 'secondary'}" onclick="setExportMode('detail')">詳細版</button>
-          <button class="summary-btn secondary" onclick="copyOrderExport()">複製下單文字</button>
-        </div>
-        <textarea id="orderExportText" class="summary-textbox" readonly>${escapeHtml(exportText)}</textarea>
-        <div class="summary-caption">目前會依你上方的篩選條件輸出。你若只想看某位同事或某個關鍵字，先篩再複製就好。</div>
       </div>
     </div>
 
