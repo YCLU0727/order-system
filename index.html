@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>龍角 × 共同點餐</title>
+<title>憨人表心意×感謝通報組×謝謝署內的大家 <</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1093,7 +1093,7 @@ function renderMyOrders(mine, all) {
 function renderAllOrders(all) {
   const v = document.getElementById('allView');
   if (all.length === 0) {
-    v.innerHTML = `<div class="empty-state"><div class="icon">👥</div><p>目前還沒有人點餐<br>去菜單選一杯吧！</p></div>`;
+    v.innerHTML = `<div class="empty-state"><div class="icon">👥</div><p>你還沒點餐<br>不要放過Morgan，去菜單選一杯吧！</p></div>`;
     return;
   }
   const grand = all.reduce((a,o) => a+o.total, 0);
@@ -1348,7 +1348,7 @@ function renderSummary(all) {
     <div class="summary-section">
       <div class="summary-section-title">📝 店家下單格式</div>
       <div class="summary-card">
-        <div class="summary-item-meta">可以直接複製給店家。精簡版適合快速喊單；詳細版會保留甜度、冰塊與加料差異。</div>
+        <div class="summary-item-meta">謝謝店家，外送請安排於15:00前，謝謝。</div>
         <div class="summary-actions">
           <button class="summary-btn ${currentExportMode === 'simple' ? '' : 'secondary'}" onclick="setExportMode('simple')">精簡版</button>
           <button class="summary-btn ${currentExportMode === 'detail' ? '' : 'secondary'}" onclick="setExportMode('detail')">詳細版</button>
