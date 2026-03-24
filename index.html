@@ -591,14 +591,14 @@
 <div id="nameScreen">
   <div class="name-card">
     <div class="brand">龍 角</div>
-    <div class="sub">感謝自己人 × 使用密碼點餐</div>
+    <div class="sub">感謝自己人 × 請使用密碼點餐</div>
     <div style="margin-bottom:16px;padding:10px 14px;background:#e8f0ea;border-radius:10px;color:#3a6b4a;font-size:13px;line-height:1.6">
-      🎉 <strong> 簡單人的小小感謝</strong><br>
+      🎉 <strong> 憨人不才小小感謝</strong><br>
       × 今日小確幸<br>
       <span style="font-size:11px;color:#888;margin-top:4px;display:block">用暱稱就好，不用寫全名 😊</span>
     </div>
     <h2>請輸入你的名字 / 暱稱</h2>
-    <input class="name-input" id="nameInput" placeholder="例如：小明、Morgan…" maxlength="10">
+    <input class="name-input" id="nameInput" placeholder="例如：王小明、Morgan…" maxlength="10">
     <input class="name-input" id="passInput" type="password" inputmode="numeric" placeholder="請輸入入場密碼" maxlength="4" style="margin-top:10px">
     <button class="btn-enter" onclick="enterApp()">進入點餐 🧋</button>
     <p class="hint">請輸入名字與密碼後進入，大家的訂單會即時同步顯示<br><span style="font-size:11px;color:#999">版本：2026-03-24-v6-order-export</span></p>
@@ -607,7 +607,7 @@
 
 <!-- HEADER -->
 <header>
-  <div class="logo">龍角 DRAGON HORN<span>共同點餐 × 即時同步</span></div>
+  <div class="logo">龍角 DRAGON HORN<span>歡迎點單 × 即時同步</span></div>
   <div class="header-right">
     <span><span class="live-dot"></span></span>
     <span class="user-badge" id="userBadge">…</span>
@@ -1077,7 +1077,7 @@ async function refreshOrders() {
 function renderMyOrders(mine, all) {
   const v = document.getElementById('myView');
   if (mine.length === 0) {
-    v.innerHTML = `<div class="empty-state"><div class="icon">🧋</div><p>還沒有點任何飲料<br>去菜單選一杯吧！</p></div>`;
+    v.innerHTML = `<div class="empty-state"><div class="icon">🧋</div><p>你還沒點餐，不要放過Morgan，<br>去菜單選一杯吧！</p></div>`;
     return;
   }
   const total = mine.reduce((a,o) => a+o.total, 0);
@@ -1346,7 +1346,7 @@ function renderSummary(all) {
     </div>
 
     <div class="summary-section">
-      <div class="summary-section-title">📝 店家下單格式</div>
+      <div class="summary-section-title">📝 給店家下單用</div>
       <div class="summary-card">
         <div class="summary-item-meta">謝謝店家，外送請安排於15:00前，謝謝。</div>
         <div class="summary-actions">
