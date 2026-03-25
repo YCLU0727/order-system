@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>愚人表心意 × 謝謝大家 </title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #3a6b4a;
+    --green-light: #5a9a6a;
+    --green-pale: #e8f0ea;
+    --cream: #faf7f2;
+    --warm: #f5efe6;
+    --brown: #7a5c3a;
+    --brown-light: #c49a6c;
+    --text: #2c2c2c;
+    --text-muted: #888;
+    --border: #ddd5c8;
+    --red: #c94040;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green);
+    color: white;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .logo {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .logo span { font-size: 11px; opacity: 0.75; display: block; font-weight: 400; letter-spacing: 1px; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .user-badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .live-dot {
+    width: 8px; height: 8px;
+    background: #6dda8a;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+
+  /* ── NAME SCREEN ── */
+  #nameScreen {
+    position: fixed; inset: 0;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999;
+    padding: 20px;
+  }
+  .name-card {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 40px 32px;
+    width: 100%; max-width: 360px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .name-card .brand {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .name-card .sub { color: var(--text-muted); font-size: 13px; margin-bottom: 28px; }
+  .name-card h2 { font-size: 17px; font-weight: 500; margin-bottom: 16px; color: var(--text); }
+  .name-input {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color .2s;
+    background: white;
+  }
+  .name-input:focus { border-color: var(--green); }
+  .btn-enter {
+    margin-top: 14px;
+    width: 100%;
+    padding: 14px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-enter:hover { background: var(--green-light); }
+  .name-card .hint { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+
+  /* ── TABS ── */
+  .tab-bar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 56px;
+    z-index: 90;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 13px 18px;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: var(--text-muted);
+    transition: all .2s;
+    font-weight: 400;
+  }
+  .tab.active {
+    color: var(--green);
+    border-bottom-color: var(--green);
+    font-weight: 500;
+  }
+  .tab .badge {
+    background: var(--red);
+    color: white;
+    border-radius: 10px;
+    font-size: 11px;
+    padding: 1px 6px;
+    margin-left: 4px;
+  }
+
+  /* ── MENU ── */
+  #menuView { padding: 16px; }
+  .cat-section { margin-bottom: 24px; }
+  .cat-header {
+    display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-pale);
+  }
+  .cat-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--green);
+  }
+  .cat-sub { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; }
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .menu-item {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 13px 12px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+  }
+  .menu-item:hover {
+    border-color: var(--green-light);
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+  }
+  .menu-item:active { transform: scale(.97); }
+  .item-name {
+    font-size: 14px; font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .item-en { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+  .item-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 8px; }
+  .tag {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    background: var(--green-pale);
+    color: var(--green);
+  }
+  .tag.warn { background: #fff3e0; color: #e65100; }
+  .item-price { font-size: 13px; color: var(--brown); font-weight: 500; }
+  .plus-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 26px; height: 26px;
+    background: var(--green);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 500;
+    display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: white;
+    border-radius: 22px 22px 0 0;
+    padding: 24px 20px 36px;
+    width: 100%; max-width: 480px;
+    max-height: 88vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+  }
+  .modal-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .modal-en { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+  .option-group { margin-bottom: 18px; }
+  .option-label {
+    font-size: 13px; font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .option-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s;
+    background: white;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .chip:hover { border-color: var(--green-light); }
+  .chip.selected {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+  }
+  .chip.topping-chip { font-size: 12px; padding: 6px 11px; }
+  .price-preview {
+    background: var(--warm);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin: 16px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .price-preview .label { font-size: 14px; color: var(--text-muted); }
+  .price-preview .amount { font-size: 22px; font-weight: 700; color: var(--brown); }
+  .price-preview .amount span { font-size: 13px; }
+  .btn-add {
+    width: 100%;
+    padding: 15px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-add:hover { background: var(--green-light); }
+  .btn-add:disabled { background: #aaa; cursor: not-allowed; }
+
+  /* ── MY ORDERS ── */
+  #myView, #allView { padding: 16px; }
+  .order-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .order-card .person-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .order-item-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .order-details { font-size: 12px; color: var(--text-muted); }
+  .order-price { font-size: 15px; font-weight: 600; color: var(--brown); }
+  .delete-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 2px;
+    line-height: 1;
+  }
+  .delete-btn:hover { color: var(--red); }
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-muted);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 15px; }
+  .section-sum {
+    background: var(--green-pale);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex; justify-content: space-between;
+    margin-bottom: 16px;
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  /* ── ALL ORDERS ── */
+  .person-group { margin-bottom: 20px; }
+  .person-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .person-name-big {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--green);
+  }
+  .person-total { font-size: 15px; font-weight: 600; color: var(--brown); }
+  .grand-total-card {
+    background: var(--green);
+    color: white;
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .grand-total-card .label { font-size: 15px; opacity: .85; }
+  .grand-total-card .amount { font-size: 24px; font-weight: 700; }
+  .refresh-hint { text-align: center; font-size: 12px; color: var(--text-muted); padding: 8px; }
+
+  /* ── STICKY CART BTN ── */
+  .sticky-cart {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 13px 22px;
+    font-size: 15px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(58,107,74,.4);
+    display: flex; align-items: center; gap: 8px;
+    z-index: 200;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .sticky-cart:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(58,107,74,.5); }
+  .cart-count {
+    background: var(--red);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+
+
+  /* ── SUMMARY ── */
+  #summaryView { padding: 16px; display:none; }
+  .summary-toolbar {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .summary-toolbar .toolbar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .filter-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px;
+    background: white;
+    font-family: 'Noto Sans TC', sans-serif;
+    outline: none;
+  }
+  .filter-control:focus { border-color: var(--green); }
+  .summary-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .summary-stat {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+  .summary-stat .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .summary-stat .value {
+    font-size: 22px;
+    color: var(--green);
+    font-weight: 700;
+  }
+  .summary-stat .sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .summary-section {
+    margin-bottom: 16px;
+  }
+  .summary-section-title {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--green);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .summary-list {
+    display: grid;
+    gap: 10px;
+  }
+  .summary-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  .summary-card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .summary-item-name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .summary-item-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .summary-qty {
+    min-width: 64px;
+    text-align: right;
+    color: var(--brown);
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .summary-qty span {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+    display: block;
+  }
+  .summary-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .summary-mini-tag {
+    font-size: 11px;
+    color: var(--green);
+    background: var(--green-pale);
+    border-radius: 999px;
+    padding: 4px 8px;
+  }
+
+
+  .summary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .summary-btn {
+    border: none;
+    background: var(--green);
+    color: white;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .summary-btn.secondary {
+    background: white;
+    color: var(--green);
+    border: 1px solid var(--green-light);
+  }
+  .summary-btn:hover { opacity: .92; }
+  .summary-textbox {
+    width: 100%;
+    min-height: 180px;
+    margin-top: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    resize: vertical;
+    background: #fff;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.7;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .summary-caption {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAME SCREEN -->
+<div id="nameScreen">
+  <div class="name-card">
+    <div class="brand">龍 角</div>
+    <div class="sub">感謝自己人 × 臨別前，我們乾一杯 :) </div>
+    <div style="margin-bottom:16px;padding:10px 14px;background:#e8f0ea;border-radius:10px;color:#3a6b4a;font-size:13px;line-height:1.6">
+       <strong> 所有的善意與幫忙，銘記在心!   </strong><br>
+      × 聊表謝意 × 祝福 <br>
+      <span style="font-size:11px;color:#888;margin-top:4px;display:block">用暱稱就好，不用寫全名 😊</span>
+    </div>
+    <h2>請輸入你的名字/暱稱</h2>
+    <input class="name-input" id="nameInput" placeholder="例如：王小明、Morgan…" maxlength="10">
+    <input class="name-input" id="passInput" type="password" inputmode="numeric" placeholder="請輸入入場密碼" maxlength="4" style="margin-top:10px">
+    <button class="btn-enter" onclick="enterApp()">進入點餐 🧋</button>
+    <p class="hint">入場密碼:Morgan桌機後4碼，26下班前收單 <br><span style="font-size:11px;color:#999">小tips:送單後可直接離開，如需調整按x後重設菜單即可~。  版本：2026-03-24-v6-order-export</span></p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">龍角 DRAGON HORN<span>歡迎點單 × 聊表心意</span></div>
+  <div class="header-right">
+    <span><span class="live-dot"></span></span>
+    <span class="user-badge" id="userBadge">…</span>
+  </div>
+</header>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('menu', this)">📋 菜單</div>
+  <div class="tab" onclick="switchTab('my', this)">🧋 我的訂單 <span class="badge" id="myBadge" style="display:none">0</span></div>
+  <div class="tab" onclick="switchTab('all', this)">👥 所有訂單 <span class="badge" id="allBadge" style="display:none">0</span></div>
+  <div class="tab" onclick="switchTab('summary', this)">📊 點餐累計</div>
+</div>
+
+<!-- MENU VIEW -->
+<div id="menuView"></div>
+
+<!-- MY ORDERS VIEW -->
+<div id="myView" style="display:none"></div>
+
+<!-- ALL ORDERS VIEW -->
+<div id="allView" style="display:none"></div>
+
+<!-- SUMMARY VIEW -->
+<div id="summaryView" style="display:none"></div>
+
+<!-- STICKY CART BUTTON -->
+<button class="sticky-cart" id="cartBtn" onclick="switchTabByName('my')" style="display:none">
+  🛒 <span id="cartLabel">我的訂單</span>
+  <span class="cart-count" id="cartCount">0</span>
+</button>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalName"></div>
+    <div class="modal-en" id="modalEn"></div>
+
+    <div class="option-group" id="sizeGroup">
+      <div class="option-label">尺寸</div>
+      <div class="option-chips" id="sizeChips"></div>
+    </div>
+
+    <div class="option-group">
+      <div class="option-label">甜度</div>
+      <div class="option-chips" id="sugarChips">
+        <div class="chip selected" onclick="selectChip(this,'sugar')">正常</div>
+        <div class="chip" onclick="selectChip(this,'sugar')">少糖</div>
+        <div class="chip" onclick="selectChip(this,'sugar')">半糖</div>
+        <div class="chip" onclick="selectChip(this,'sugar')">微糖</div>
+        <div class="chip" onclick="selectChip(this,'sugar')">一分糖</div>
+        <div class="chip" onclick="selectChip(this,'sugar')">無糖</div>
+      </div>
+    </div>
+
+    <div class="option-group">
+      <div class="option-label">冰塊</div>
+      <div class="option-chips" id="iceChips">
+        <div class="chip selected" onclick="selectChip(this,'ice')">正常</div>
+        <div class="chip" onclick="selectChip(this,'ice')">少冰</div>
+        <div class="chip" onclick="selectChip(this,'ice')">微冰</div>
+        <div class="chip" onclick="selectChip(this,'ice')">去冰</div>
+        <div class="chip" onclick="selectChip(this,'ice')">常溫</div>
+        <div class="chip" onclick="selectChip(this,'ice')">溫熱</div>
+      </div>
+    </div>
+
+    <div class="option-group">
+      <div class="option-label">加料（可複選）</div>
+      <div class="option-chips">
+        <div class="chip topping-chip" data-price="5" onclick="toggleTopping(this)">仙草凍 +5</div>
+        <div class="chip topping-chip" data-price="10" onclick="toggleTopping(this)">蜜糖珍珠 +10</div>
+        <div class="chip topping-chip" data-price="10" onclick="toggleTopping(this)">仙芋 +10</div>
+        <div class="chip topping-chip" data-price="10" onclick="toggleTopping(this)">椰果 +10</div>
+        <div class="chip topping-chip" data-price="15" onclick="toggleTopping(this)">自烤咖啡凍 +15</div>
+        <div class="chip topping-chip" data-price="15" onclick="toggleTopping(this)">桂花凍 +15</div>
+        <div class="chip topping-chip" data-price="15" onclick="toggleTopping(this)">小芋圓 +15</div>
+        <div class="chip topping-chip" data-price="15" onclick="toggleTopping(this)">寒天 +15</div>
+      </div>
+    </div>
+
+    <div class="price-preview">
+      <div class="label">小計</div>
+      <div class="amount" id="pricePreview"><span>NT$</span>—</div>
+    </div>
+
+    <button class="btn-add" id="addBtn" onclick="addToOrder()">加入訂單</button>
+  </div>
+</div>
+
+<script>
+const APP_VERSION = "2026-03-24-v6-order-export";
+console.log("DragonHorn app version:", APP_VERSION);
+const MENU = [
+  {
+    cat: "好茶", sub: "Tea", emoji: "🍵",
+    sizes: ["M","L"],
+    items: [
+      { name: "龍潭紅茶", en: "Black Tea", prices: {M:30,L:35} },
+      { name: "香片綠茶", en: "Jasmine Green Tea", prices: {M:30,L:35} },
+      { name: "觀音紅茶", en: "Tie Guanyin Black Tea", prices: {M:35,L:40} },
+      { name: "培煎觀音", en: "Tie Guanyin Tea", prices: {M:35,L:40} },
+      { name: "輕烏龍茶", en: "Light Baked Oolong Tea", prices: {M:35,L:40} },
+      { name: "春橙桂花", en: "Osmanthus Green Tea", prices: {M:35,L:40} },
+      { name: "桂香春露", en: "Osmanthus Tea", prices: {M:35,L:40}, tags:["冰量固定"] },
+      { name: "鑑湄凍茶", en: "Tea with Coffee Jelly", prices: {M:45,L:50}, tags:["最佳搭檔"] },
+      { name: "龍角凍茶", en: "Special Tea with Osmanthus Jelly", prices: {M:50,L:55}, tags:["冰量固定"] },
+    ]
+  },
+  {
+    cat: "好好睡", sub: "Decaf Drink", emoji: "🌙",
+    sizes: ["M","L"],
+    items: [
+      { name: "冬瓜雪夢", en: "White Gourd Drink with Lemon", prices: {M:50,L:55}, tags:["冰量固定","無咖啡因"] },
+      { name: "檸檬冰梅", en: "Lemon Plum Drink", prices: {M:50,L:60}, tags:["冰量固定","無咖啡因"] },
+      { name: "蜂蜜黑糖牛奶", en: "Honey Milk / Brown Sugar Milk", prices: {M:50,L:60}, tags:["最佳搭檔","無咖啡因"] },
+      { name: "珍芋蜂蜜牛奶", en: "Honey Milk with Bubble & Taro Ball", prices: {M:55,L:65}, tags:["無咖啡因"] },
+      { name: "仙梅凍茶", en: "Fresh Milk with Grass Jelly", prices: {M:55,L:65}, tags:["無咖啡因"] },
+      { name: "盛夏果粒", en: "Mixed Fruit Juice", prices: {M:65,L:75}, tags:["冰量固定","無咖啡因"] },
+    ]
+  },
+  {
+    cat: "好咖啡", sub: "Coffee", emoji: "☕",
+    sizes: ["S","M"],
+    items: [
+      { name: "自烤美式", en: "Caffè Americano", prices: {S:45,M:55} },
+      { name: "厚奶咖啡", en: "Powder Creamer Coffee", prices: {S:55,M:65} },
+      { name: "蜂蜜咖啡", en: "Honey Coffee", prices: {S:55,M:65}, tags:["最佳搭檔"] },
+      { name: "雪夢咖啡", en: "Lemon Coffee", prices: {S:60,M:70}, tags:["冰量固定"] },
+      { name: "自烤咖啡拿鐵", en: "Coffee Latte", prices: {S:70,M:85}, tags:["加料拒絕糖漿"] },
+      { name: "黑金拿鐵", en: "Coffee Latte with Bubble or Grass Jelly", prices: {M:85}, tags:["單一尺寸"] },
+    ]
+  },
+  {
+    cat: "好果茶", sub: "Fruit Tea", emoji: "🍋",
+    sizes: ["M","L"],
+    items: [
+      { name: "自釀梅味綠/觀音", en: "Plum Green / Guanyin Tea", prices: {M:45,L:55} },
+      { name: "檸檬百香綠/紅", en: "Passion Fruit Green / Black Tea", prices: {M:50,L:60} },
+      { name: "桂香春露", en: "Lemon White Gourd & Osmanthus Green", prices: {M:50,L:60}, tags:["最佳5分鐘"] },
+      { name: "百香寶盒", en: "Passion Fruit Green Tea with mixed toppings", prices: {M:60,L:70} },
+      { name: "檸檬春凍茶", en: "Lemon White Gourd & Osmanthus Tea", prices: {M:60,L:70}, tags:["最佳5分鐘"] },
+      { name: "橙柚茶", en: "Orange Juice mixed Grape Fruit & Matcha", prices: {M:65,L:75}, tags:["冰量固定"] },
+      { name: "仙草凍茶", en: "Grape Fruit Oolong Tea", prices: {M:65,L:75} },
+      { name: "盛夏冰葉茶", en: "Mixed Fruit Tea", prices: {M:65,L:75}, tags:["冰量固定"] },
+    ]
+  },
+  {
+    cat: "好厚奶", sub: "Creamer Milk Tea", emoji: "🥛",
+    sizes: ["M","L"],
+    items: [
+      { name: "香片奶綠", en: "Jasmine Green Milk Tea", prices: {M:45,L:55} },
+      { name: "桂花春奶", en: "Osmanthus Green Milk Tea", prices: {M:45,L:55} },
+      { name: "觀音奶茶", en: "Tie Guanyin Milk Tea", prices: {M:45,L:55} },
+      { name: "龍芒鮮奶（中焙）", en: "Dragon Milk Tea", prices: {M:45,L:55} },
+      { name: "龍芒鮮奶（重焙）", en: "Dragon Milk Tea Heavy Roast", prices: {M:50,L:60}, tags:["最佳一分鐘"] },
+      { name: "富嫩珍奶", en: "Bubble Milk Tea", prices: {M:50,L:60} },
+      { name: "龍湄凍奶", en: "Coffee Milk Tea", prices: {M:55,L:65} },
+      { name: "珍芋觀音奶茶", en: "Tie Guanyin Milk Tea with Bubble & Taro Ball", prices: {M:55,L:65} },
+      { name: "小芋圓龍芒茶", en: "Taro ball Milk Tea", prices: {M:60,L:70} },
+    ]
+  },
+  {
+    cat: "好醇奶", sub: "Dairy Blend", emoji: "🐄",
+    sizes: ["M","L"],
+    items: [
+      { name: "仙草凍鮮奶茶", en: "Fresh Milk Tea with Grass Jelly", prices: {M:55,L:65} },
+      { name: "桂花鮮奶茶", en: "Dragon Fresh Milk Tea", prices: {M:55,L:65} },
+      { name: "香片鮮奶綠", en: "Jasmine Green Fresh Milk Tea", prices: {M:55,L:65} },
+      { name: "桂花奶茶", en: "Osmanthus Green Fresh Milk Tea", prices: {M:60,L:70} },
+      { name: "老鐵鮮奶茶", en: "Tie Guanyin Fresh Milk Tea", prices: {M:60,L:70} },
+      { name: "桂花凍鮮奶綠", en: "Tie Guanyin Fresh Milk Tea with Osmanthus Jelly", prices: {M:65,L:75} },
+      { name: "重乳盛湄凍奶", en: "Black Milk Tea with Coffee Jelly", prices: {M:60,L:65} },
+      { name: "桂花凍蜂蜜牛奶", en: "Osmanthus Jelly with Honey Milk", prices: {M:60,L:65} },
+      { name: "咖啡凍黑糖牛奶", en: "Brown Sugar Milk with Coffee Jelly", prices: {M:60,L:65} },
+      { name: "珍芋抹茶牛奶", en: "Matcha Milk with Bubble & Taro Ball", prices: {M:60,L:65}, tags:["最佳一分鐘"] },
+    ]
+  },
+];
+
+// ══════════════════════════════════════════
+//  ★ 填入你的 Firebase Realtime Database 網址
+//    例如: https://dragonhorn-abc12-default-rtdb.firebaseio.com
+// ══════════════════════════════════════════
+const FIREBASE_URL = "https://order-31e64-default-rtdb.firebaseio.com";
+// ══════════════════════════════════════════
+
+function showToast(msg, isError=false) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:20px;font-size:14px;z-index:9999;max-width:90vw;text-align:center;transition:opacity .3s';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = isError ? '#c94040' : '#3a6b4a';
+  t.style.color = 'white';
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.opacity = '0', 3000);
+}
+
+async function fbGet() {
+  try {
+    const r = await fetch(`${FIREBASE_URL}/orders.json`);
+    if (!r.ok) { showToast('❌ 資料庫連線失敗：' + r.status, true); return []; }
+    const data = await r.json();
+    if (!data) return [];
+    return Object.values(data)
+      .filter(o => o && typeof o === 'object')
+      .map(o => ({
+        id: o.id || uid(),
+        person: o.person || '未命名',
+        name: o.name || '未命名飲品',
+        size: o.size || '',
+        sugar: o.sugar || '正常',
+        ice: o.ice || '正常',
+        toppings: Array.isArray(o.toppings) ? o.toppings : [],
+        basePrice: Number(o.basePrice || 0),
+        toppingCost: Number(o.toppingCost || 0),
+        total: Number(o.total || o.basePrice || 0),
+        ts: Number(o.ts || Date.now())
+      }));
+  } catch(e) {
+    showToast('❌ 無法連線 Firebase，請檢查網路', true);
+    console.error(e); return [];
+  }
+}
+async function fbAdd(order) {
+  try {
+    const r = await fetch(`${FIREBASE_URL}/orders/${order.id}.json`, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(order)
+    });
+    if (!r.ok) { showToast('❌ 儲存失敗：' + r.status + '（請確認 Firebase 規則設為測試模式）', true); return false; }
+    showToast('✅ 已加入訂單！');
+    return true;
+  } catch(e) {
+    showToast('❌ 網路錯誤，請重試', true);
+    console.error(e); return false;
+  }
+}
+async function fbDelete(id) {
+  try {
+    const r = await fetch(`${FIREBASE_URL}/orders/${id}.json`, { method: 'DELETE' });
+    if (!r.ok) {
+      showToast('❌ 刪除失敗：' + r.status, true);
+      return false;
+    }
+    showToast('🗑️ 已刪除訂單');
+    return true;
+  } catch(e) {
+    console.error(e);
+    showToast('❌ 刪除失敗，請檢查網路', true);
+    return false;
+  }
+}
+
+// ── STATE ──
+let myName = "";
+let currentItem = null;
+let selectedSize = null;
+let selectedSizes = {};
+let selectedToppings = [];
+const PERSON_COLORS = ["#3a6b4a","#c94040","#1a5276","#7d3c98","#ca6f1e","#1a7a50","#6e2f8c","#a04000"];
+
+function getColor(name) {
+  let h = 0; for (let c of name) h += c.charCodeAt(0);
+  return PERSON_COLORS[h % PERSON_COLORS.length];
+}
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+}
+
+// ── INIT ──
+const ACCESS_PASSWORD = "8681";
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') enterApp();
+  });
+  document.getElementById('passInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') enterApp();
+  });
+  renderMenu();
+  startPolling();
+});
+
+function enterApp() {
+  const n = document.getElementById('nameInput').value.trim();
+  const pw = document.getElementById('passInput').value.trim();
+  if (!n) { document.getElementById('nameInput').focus(); return; }
+  if (pw !== ACCESS_PASSWORD) {
+    showToast('❌ 密碼錯誤', true);
+    document.getElementById('passInput').focus();
+    document.getElementById('passInput').select();
+    return;
+  }
+  myName = n;
+  document.getElementById('userBadge').textContent = '👤 ' + n;
+  document.getElementById('nameScreen').style.display = 'none';
+  refreshOrders();
+}
+
+// ── TABS ──
+let currentTab = 'menu';
+let cachedOrders = [];
+let currentExportMode = 'simple';
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('menuView').style.display = tab === 'menu' ? 'block' : 'none';
+  document.getElementById('myView').style.display = tab === 'my' ? 'block' : 'none';
+  document.getElementById('allView').style.display = tab === 'all' ? 'block' : 'none';
+  document.getElementById('summaryView').style.display = tab === 'summary' ? 'block' : 'none';
+  if (tab !== 'menu') refreshOrders();
+}
+function switchTabByName(tab) {
+  const tabs = document.querySelectorAll('.tab');
+  const names = ['menu','my','all','summary'];
+  switchTab(tab, tabs[names.indexOf(tab)]);
+}
+
+// ── MENU RENDER ──
+function renderMenu() {
+  const v = document.getElementById('menuView');
+  v.innerHTML = MENU.map(cat => `
+    <div class="cat-section">
+      <div class="cat-header">
+        <div class="cat-title">${cat.emoji} ${cat.cat}</div>
+        <div class="cat-sub">${cat.sub}</div>
+      </div>
+      <div class="items-grid">
+        ${cat.items.map(item => {
+          const prices = Object.entries(item.prices);
+          const priceStr = prices.map(([s,p]) => `${s} $${p}`).join(' / ');
+          const tags = (item.tags||[]).map(t => `<span class="tag ${t.includes('固定')||t.includes('一分')||t.includes('5分')?'warn':''}">${t}</span>`).join('');
+          const modalPayload = JSON.stringify({...item, catSizes: cat.sizes}).replace(/'/g, "&#39;");
+          return `<div class="menu-item" onclick='openModal(${modalPayload})'>
+            <div class="plus-btn">+</div>
+            <div class="item-name">${item.name}</div>
+            ${item.en ? `<div class="item-en">${item.en}</div>` : ''}
+            ${tags ? `<div class="item-tags">${tags}</div>` : ''}
+            <div class="item-price">${priceStr}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── MODAL ──
+let currentCatSizes = ["M","L"];
+function openModal(item) {
+  if (!myName) {
+    showToast('請先輸入名字再點餐～', true);
+    document.getElementById('nameInput').focus();
+    return;
+  }
+  currentItem = item;
+  currentCatSizes = item.catSizes || ["M","L"];
+  selectedSize = null;
+  selectedToppings = [];
+
+  document.getElementById('modalName').textContent = item.name;
+  document.getElementById('modalEn').textContent = item.en || '';
+
+  // size chips
+  const sizeHtml = currentCatSizes
+    .filter(s => item.prices[s] !== undefined)
+    .map(s => `<div class="chip" onclick="selectChip(this,'size')" data-size="${s}">${s}杯 $${item.prices[s]}</div>`)
+    .join('');
+  document.getElementById('sizeChips').innerHTML = sizeHtml;
+
+  const firstSizeChip = document.querySelector('#sizeChips .chip');
+  if (firstSizeChip) firstSizeChip.classList.add('selected');
+
+  // reset sugar/ice
+  document.querySelectorAll('#sugarChips .chip').forEach((c,i) => c.classList.toggle('selected', i===0));
+  document.querySelectorAll('#iceChips .chip').forEach((c,i) => c.classList.toggle('selected', i===0));
+  document.querySelectorAll('.topping-chip').forEach(c => c.classList.remove('selected'));
+
+  updatePrice();
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+function selectChip(el, group) {
+  el.closest('.option-chips').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  updatePrice();
+}
+
+function toggleTopping(el) {
+  el.classList.toggle('selected');
+  updatePrice();
+}
+
+function updatePrice() {
+  if (!currentItem) return;
+  const sizeEl = document.querySelector('#sizeChips .chip.selected');
+  const size = sizeEl ? sizeEl.dataset.size : null;
+  const basePrice = size && currentItem.prices[size] ? currentItem.prices[size] : null;
+  let toppingCost = 0;
+  document.querySelectorAll('.topping-chip.selected').forEach(c => { toppingCost += parseInt(c.dataset.price); });
+  if (basePrice !== null) {
+    document.getElementById('pricePreview').innerHTML = `<span>NT$</span>${basePrice + toppingCost}`;
+    document.getElementById('addBtn').disabled = false;
+  } else {
+    document.getElementById('pricePreview').innerHTML = `<span style="font-size:14px;color:#888">請選擇尺寸</span>`;
+    document.getElementById('addBtn').disabled = true;
+  }
+}
+
+async function addToOrder() {
+  if (!myName || !currentItem) return;
+  const sizeEl = document.querySelector('#sizeChips .chip.selected');
+  if (!sizeEl) return;
+  const size = sizeEl.dataset.size;
+  const sugar = document.querySelector('#sugarChips .chip.selected')?.textContent || '正常';
+  const ice = document.querySelector('#iceChips .chip.selected')?.textContent || '正常';
+  const toppings = [...document.querySelectorAll('.topping-chip.selected')].map(c => c.textContent.trim());
+  let toppingCost = 0;
+  document.querySelectorAll('.topping-chip.selected').forEach(c => { toppingCost += parseInt(c.dataset.price); });
+  const basePrice = currentItem.prices[size];
+  const total = basePrice + toppingCost;
+
+  const order = {
+    id: uid(),
+    person: myName,
+    name: currentItem.name,
+    size, sugar, ice,
+    toppings,
+    basePrice, toppingCost, total,
+    ts: Date.now()
+  };
+
+  const ok = await fbAdd(order);
+  if (!ok) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+  refreshOrders();
+}
+
+// ── ORDERS ──
+async function refreshOrders() {
+  const all = await fbGet();
+  cachedOrders = Array.isArray(all) ? all : [];
+
+  const mine = cachedOrders.filter(o => o.person === myName);
+  renderMyOrders(mine, cachedOrders);
+  renderAllOrders(cachedOrders);
+  renderSummary(cachedOrders);
+  updateBadges(mine.length, cachedOrders.length);
+  updateCartBtn(mine.length);
+}
+
+function renderMyOrders(mine, all) {
+  const v = document.getElementById('myView');
+  if (mine.length === 0) {
+    v.innerHTML = `<div class="empty-state"><div class="icon">🧋</div><p>你還沒點餐，不要放過Morgan，<br>去菜單選一杯吧！</p></div>`;
+    return;
+  }
+  const total = mine.reduce((a,o) => a+o.total, 0);
+  v.innerHTML = `
+    <div class="section-sum">
+      <span>我的小計</span>
+      <span>NT$ ${total}</span>
+    </div>
+    ${mine.map(o => orderCard(o, true)).join('')}
+  `;
+}
+
+function renderAllOrders(all) {
+  const v = document.getElementById('allView');
+  if (all.length === 0) {
+    v.innerHTML = `<div class="empty-state"><div class="icon">👥</div><p>你還沒點餐<br>不要放過Morgan，去菜單選一杯吧！</p></div>`;
+    return;
+  }
+  const grand = all.reduce((a,o) => a+o.total, 0);
+  // group by person
+  const groups = {};
+  all.forEach(o => {
+    if (!groups[o.person]) groups[o.person] = [];
+    groups[o.person].push(o);
+  });
+  const now = new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+  v.innerHTML = `
+    <div class="grand-total-card">
+      <div class="label">🧾 全部合計（${all.length} 杯）</div>
+      <div class="amount">NT$ ${grand}</div>
+    </div>
+    ${Object.entries(groups).map(([person, orders]) => {
+      const ptotal = orders.reduce((a,o) => a+o.total, 0);
+      return `<div class="person-group">
+        <div class="person-header">
+          <span class="person-name-big" style="color:${getColor(person)}">${person}</span>
+          <span class="person-total">NT$ ${ptotal}</span>
+        </div>
+        ${orders.map(o => orderCard(o, false)).join('')}
+      </div>`;
+    }).join('')}
+    <div class="refresh-hint">↻ 自動更新中 · 最後同步 ${now}</div>
+  `;
+}
+
+function orderCard(o, canDelete) {
+  const toppings = Array.isArray(o.toppings) ? o.toppings : [];
+  const tStr = toppings.length > 0 ? `，加料：${toppings.map(t=>String(t).split(' ')[0]).join('、')}` : '';
+  const color = getColor(o.person || '未命名');
+  const timeText = o.ts ? new Date(o.ts).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}) : '--:--';
+  return `
+    <div class="order-card">
+      ${canDelete ? `<button class="delete-btn" onclick="deleteOrder('${o.id}')">×</button>` : ''}
+      <span class="person-badge" style="background:${color}22;color:${color}">${o.person || '未命名'}</span>
+      <div class="order-item-name">${o.name || '未命名飲品'}${o.size ? `（${o.size}）` : ''}</div>
+      <div class="order-details">${o.sugar || '正常'}・${o.ice || '正常'}${tStr}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <span style="font-size:12px;color:#aaa">${timeText}</span>
+        <div class="order-price">NT$ ${Number(o.total || 0)}</div>
+      </div>
+    </div>
+  `;
+}
+
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, s => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[s]));
+}
+
+function getSummaryFilters() {
+  return {
+    person: document.getElementById('summaryPersonFilter')?.value || 'ALL',
+    keyword: (document.getElementById('summaryKeyword')?.value || '').trim().toLowerCase(),
+    sort: document.getElementById('summarySort')?.value || 'qty'
+  };
+}
+
+
+function buildOrderExportText(orders, filters, mode = 'simple') {
+  const list = Array.isArray(orders) ? orders : [];
+  if (!list.length) return '目前沒有可輸出的點餐資料';
+
+  const title = filters?.person && filters.person !== 'ALL'
+    ? `【龍角點餐統整｜${filters.person}】`
+    : '【龍角點餐統整】';
+
+  const map = {};
+  list.forEach(o => {
+    const toppings = Array.isArray(o.toppings) ? o.toppings.map(t => String(t).split(' ')[0]) : [];
+    const toppingText = toppings.length ? `｜加料 ${toppings.join('、')}` : '';
+    const optionText = `｜${o.sugar || '正常'}糖・${o.ice || '正常'}冰${toppingText}`;
+    const key = mode === 'detail'
+      ? `${o.name || '未命名飲品'}||${o.size || ''}||${optionText}`
+      : `${o.name || '未命名飲品'}||${o.size || ''}`;
+    if (!map[key]) {
+      map[key] = {
+        name: o.name || '未命名飲品',
+        size: o.size || '',
+        qty: 0,
+        total: 0,
+        optionText,
+        people: new Set(),
+      };
+    }
+    map[key].qty += 1;
+    map[key].total += Number(o.total || 0);
+    map[key].people.add(o.person || '未命名');
+  });
+
+  const rows = Object.values(map).sort((a,b) => b.qty - a.qty || b.total - a.total || a.name.localeCompare(b.name, 'zh-Hant'));
+  const lines = rows.map((row, idx) => {
+    const sizeText = row.size ? ` ${row.size}` : '';
+    const extra = mode === 'detail' ? `${row.optionText}` : '';
+    return `${idx + 1}. ${row.name}${sizeText} × ${row.qty}${extra}`;
+  });
+
+  const totalQty = list.length;
+  const totalAmount = list.reduce((sum, o) => sum + Number(o.total || 0), 0);
+  const peopleCount = new Set(list.map(o => o.person || '未命名')).size;
+  const keywordLine = filters?.keyword ? `關鍵字：${filters.keyword}` : null;
+
+  return [
+    title,
+    ...keywordLine ? [keywordLine] : [],
+    ...lines,
+    '—'.repeat(16),
+    `共 ${totalQty} 杯｜總額 $${totalAmount}｜${peopleCount} 人`,
+    mode === 'simple' ? '※ 精簡版：依「品項＋尺寸」彙整，甜度冰塊與加料未展開。' : '※ 詳細版：已展開甜度／冰塊／加料差異。'
+  ].join('\n');
+}
+
+function setExportMode(mode) {
+  currentExportMode = mode === 'detail' ? 'detail' : 'simple';
+  renderSummary(cachedOrders);
+}
+
+async function copyOrderExport() {
+  const box = document.getElementById('orderExportText');
+  if (!box) return;
+  const text = box.value || '';
+  if (!text.trim()) {
+    showToast('目前沒有可複製的內容', true);
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast(currentExportMode === 'detail' ? '📋 已複製詳細版下單文字' : '📋 已複製精簡版下單文字');
+  } catch (e) {
+    box.focus();
+    box.select();
+    document.execCommand('copy');
+    showToast('📋 已複製下單文字');
+  }
+}
+
+function renderSummary(all) {
+  const v = document.getElementById('summaryView');
+  const previous = getSummaryFilters();
+
+  const people = [...new Set(all.map(o => o.person).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'zh-Hant'));
+  const personOptions = ['<option value="ALL">全部同事</option>']
+    .concat(people.map(p => `<option value="${escapeHtml(p)}" ${previous.person === p ? 'selected' : ''}>${escapeHtml(p)}</option>`))
+    .join('');
+
+  const baseFiltered = all.filter(o => previous.person === 'ALL' ? true : o.person === previous.person);
+  const filtered = baseFiltered.filter(o => {
+    if (!previous.keyword) return true;
+    const hay = [o.name, o.person, o.size, ...(Array.isArray(o.toppings) ? o.toppings : [])].join(' ').toLowerCase();
+    return hay.includes(previous.keyword);
+  });
+
+  const summaryMap = {};
+  filtered.forEach(o => {
+    const key = o.name || '未命名飲品';
+    if (!summaryMap[key]) {
+      summaryMap[key] = {
+        name: key,
+        qty: 0,
+        total: 0,
+        sizes: {},
+        people: new Set(),
+        toppings: {},
+        orders: []
+      };
+    }
+    const row = summaryMap[key];
+    row.qty += 1;
+    row.total += Number(o.total || 0);
+    row.sizes[o.size || '未指定'] = (row.sizes[o.size || '未指定'] || 0) + 1;
+    row.people.add(o.person || '未命名');
+    (Array.isArray(o.toppings) ? o.toppings : []).forEach(t => {
+      const simple = String(t).split(' ')[0];
+      row.toppings[simple] = (row.toppings[simple] || 0) + 1;
+    });
+    row.orders.push(o);
+  });
+
+  let itemRows = Object.values(summaryMap);
+  if (previous.sort === 'amount') itemRows.sort((a,b) => b.total - a.total || b.qty - a.qty || a.name.localeCompare(b.name, 'zh-Hant'));
+  else if (previous.sort === 'name') itemRows.sort((a,b) => a.name.localeCompare(b.name, 'zh-Hant'));
+  else itemRows.sort((a,b) => b.qty - a.qty || b.total - a.total || a.name.localeCompare(b.name, 'zh-Hant'));
+
+  const sizeRows = [];
+  itemRows.forEach(item => {
+    Object.entries(item.sizes).forEach(([size, qty]) => {
+      const amount = item.orders.filter(o => (o.size || '未指定') === size).reduce((sum, o) => sum + Number(o.total || 0), 0);
+      sizeRows.push({ name: item.name, size, qty, total: amount });
+    });
+  });
+  sizeRows.sort((a,b) => b.qty - a.qty || b.total - a.total || a.name.localeCompare(b.name, 'zh-Hant'));
+
+  const peopleRows = {};
+  filtered.forEach(o => {
+    const person = o.person || '未命名';
+    if (!peopleRows[person]) peopleRows[person] = { person, qty: 0, total: 0 };
+    peopleRows[person].qty += 1;
+    peopleRows[person].total += Number(o.total || 0);
+  });
+  const personSummary = Object.values(peopleRows).sort((a,b) => b.qty - a.qty || b.total - a.total || a.person.localeCompare(b.person, 'zh-Hant'));
+
+  const totalQty = filtered.length;
+  const totalAmount = filtered.reduce((sum, o) => sum + Number(o.total || 0), 0);
+  const uniqueItems = itemRows.length;
+  const uniquePeople = new Set(filtered.map(o => o.person || '未命名')).size;
+  const exportText = buildOrderExportText(filtered, previous, currentExportMode);
+
+  v.innerHTML = `
+    <div class="summary-toolbar">
+      <div class="toolbar-title">📊 點餐累計總覽</div>
+      <div class="filter-grid">
+        <select id="summaryPersonFilter" class="filter-control" onchange="renderSummary(cachedOrders)">
+          ${personOptions}
+        </select>
+        <input id="summaryKeyword" class="filter-control" placeholder="搜尋飲品／人名／尺寸／加料" value="${escapeHtml(previous.keyword)}" oninput="renderSummary(cachedOrders)">
+        <select id="summarySort" class="filter-control" onchange="renderSummary(cachedOrders)">
+          <option value="qty" ${previous.sort === 'qty' ? 'selected' : ''}>依杯數排序</option>
+          <option value="amount" ${previous.sort === 'amount' ? 'selected' : ''}>依金額排序</option>
+          <option value="name" ${previous.sort === 'name' ? 'selected' : ''}>依名稱排序</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="summary-stat-grid">
+      <div class="summary-stat">
+        <div class="label">總杯數</div>
+        <div class="value">${totalQty}</div>
+        <div class="sub">目前篩選結果</div>
+      </div>
+      <div class="summary-stat">
+        <div class="label">總金額</div>
+        <div class="value">$${totalAmount}</div>
+        <div class="sub"> 敲撲滿費用 </div>
+      </div>
+      <div class="summary-stat">
+        <div class="label">品項數</div>
+        <div class="value">${uniqueItems}</div>
+        <div class="sub">飲品種類目前項目</div>
+      </div>
+      <div class="summary-stat">
+        <div class="label">點餐人數</div>
+        <div class="value">${uniquePeople}</div>
+        <div class="sub">下單的人頭</div>
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">📝 給店家下單用</div>
+      <div class="summary-card">
+        <div class="summary-item-meta">謝謝店家，外送請安排於15:00前，謝謝。</div>
+        <div class="summary-actions">
+          <button class="summary-btn ${currentExportMode === 'simple' ? '' : 'secondary'}" onclick="setExportMode('simple')">精簡版</button>
+          <button class="summary-btn ${currentExportMode === 'detail' ? '' : 'secondary'}" onclick="setExportMode('detail')">詳細版</button>
+          <button class="summary-btn secondary" onclick="copyOrderExport()">複製下單文字</button>
+        </div>
+        <textarea id="orderExportText" class="summary-textbox" readonly>${escapeHtml(exportText)}</textarea>
+        <div class="summary-caption">依上方的篩選條件輸出。</div>
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">🧋 品項累計</div>
+      <div class="summary-list">
+        ${itemRows.length ? itemRows.map(item => {
+          const sizeText = Object.entries(item.sizes).map(([size, qty]) => `${size} × ${qty}`).join('／');
+          const topToppings = Object.entries(item.toppings).sort((a,b) => b[1] - a[1]).slice(0,4);
+          return `
+            <div class="summary-card">
+              <div class="summary-card-top">
+                <div>
+                  <div class="summary-item-name">${escapeHtml(item.name)}</div>
+                  <div class="summary-item-meta">
+                    尺寸分布：${escapeHtml(sizeText || '—')}<br>
+                    點餐人：${item.people.size} 人｜平均單價：$${item.qty ? Math.round(item.total / item.qty) : 0}
+                  </div>
+                </div>
+                <div class="summary-qty">${item.qty}<span>杯</span></div>
+              </div>
+              <div class="summary-tags">
+                <span class="summary-mini-tag">合計 $${item.total}</span>
+                ${topToppings.map(([name, qty]) => `<span class="summary-mini-tag">${escapeHtml(name)} × ${qty}</span>`).join('')}
+              </div>
+            </div>
+          `;
+        }).join('') : `<div class="empty-state"><div class="icon">🔎</div><p>這個篩選條件下還沒有資料</p></div>`}
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">🥤 各尺寸幾杯</div>
+      <div class="summary-list">
+        ${sizeRows.length ? sizeRows.map(row => `
+          <div class="summary-card">
+            <div class="summary-card-top">
+              <div>
+                <div class="summary-item-name">${escapeHtml(row.name)}｜${escapeHtml(row.size)}</div>
+                <div class="summary-item-meta">此尺寸累計金額：$${row.total}</div>
+              </div>
+              <div class="summary-qty">${row.qty}<span>杯</span></div>
+            </div>
+          </div>
+        `).join('') : `<div class="empty-state"><div class="icon">🥶</div><p>目前沒有尺寸統計資料</p></div>`}
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">👥 各自點了幾杯</div>
+      <div class="summary-list">
+        ${personSummary.length ? personSummary.map(row => `
+          <div class="summary-card">
+            <div class="summary-card-top">
+              <div>
+                <div class="summary-item-name" style="color:${getColor(row.person)}">${escapeHtml(row.person)}</div>
+                <div class="summary-item-meta">合計金額：$${row.total}</div>
+              </div>
+              <div class="summary-qty">${row.qty}<span>杯</span></div>
+            </div>
+          </div>
+        `).join('') : `<div class="empty-state"><div class="icon">👀</div><p>還沒有人進來點餐</p></div>`}
+      </div>
+    </div>
+  `;
+}
+
+
+async function deleteOrder(id) {
+  const ok = await fbDelete(id);
+  if (ok) refreshOrders();
+}
+
+function updateBadges(myCount, allCount) {
+  const mb = document.getElementById('myBadge');
+  const ab = document.getElementById('allBadge');
+  mb.textContent = myCount; mb.style.display = myCount ? 'inline' : 'none';
+  ab.textContent = allCount; ab.style.display = allCount ? 'inline' : 'none';
+}
+
+function updateCartBtn(count) {
+  const btn = document.getElementById('cartBtn');
+  document.getElementById('cartCount').textContent = count;
+  btn.style.display = count > 0 && currentTab === 'menu' ? 'flex' : 'none';
+}
+
+// ── POLLING ──
+function startPolling() {
+  setInterval(() => {
+    if (myName) refreshOrders();
+  }, 4000);
+}
+</script>
+</body>
+</html>
