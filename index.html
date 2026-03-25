@@ -1331,17 +1331,17 @@ function renderSummary(all) {
       <div class="summary-stat">
         <div class="label">總金額</div>
         <div class="value">$${totalAmount}</div>
-        <div class="sub">可以直接拿去報帳（理論上）</div>
+        <div class="sub"> 敲撲滿費用 </div>
       </div>
       <div class="summary-stat">
         <div class="label">品項數</div>
         <div class="value">${uniqueItems}</div>
-        <div class="sub">不同飲品種類</div>
+        <div class="sub">飲品種類目前項目</div>
       </div>
       <div class="summary-stat">
         <div class="label">點餐人數</div>
         <div class="value">${uniquePeople}</div>
-        <div class="sub">有下單的人</div>
+        <div class="sub">下單的人頭</div>
       </div>
     </div>
 
@@ -1355,7 +1355,7 @@ function renderSummary(all) {
           <button class="summary-btn secondary" onclick="copyOrderExport()">複製下單文字</button>
         </div>
         <textarea id="orderExportText" class="summary-textbox" readonly>${escapeHtml(exportText)}</textarea>
-        <div class="summary-caption">目前會依你上方的篩選條件輸出。你若只想看某位同事或某個關鍵字，先篩再複製就好。</div>
+        <div class="summary-caption">依上方的篩選條件輸出。</div>
       </div>
     </div>
 
