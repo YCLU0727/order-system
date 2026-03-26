@@ -1194,8 +1194,10 @@ function buildOrderExportText(orders, filters, mode = 'simple') {
   const lines = rows.map((row, idx) => {
     const sizeText = row.size ? ` ${row.size}` : '';
     const extra = mode === 'detail' ? `${row.optionText}` : '';
-    return `${idx + 1}. ${row.name}${sizeText} × ${row.qty}${extra}`;
+    const peopleText = row.people.size > 0 ? `（${[...row.people].join('、')}）` : '';
+    return `${idx + 1}. ${row.name}${sizeText} × ${row.qty}${extra} ${peopleText}`;
   });
+
 
   const totalQty = list.length;
   const totalAmount = list.reduce((sum, o) => sum + Number(o.total || 0), 0);
