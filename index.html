@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>龍角 × 共同點餐</title>
+<title>愚人表心意 × 謝謝大家 </title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -410,6 +410,176 @@
     font-size: 12px; font-weight: 700;
   }
 
+
+  /* ── SUMMARY ── */
+  #summaryView { padding: 16px; display:none; }
+  .summary-toolbar {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .summary-toolbar .toolbar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .filter-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px;
+    background: white;
+    font-family: 'Noto Sans TC', sans-serif;
+    outline: none;
+  }
+  .filter-control:focus { border-color: var(--green); }
+  .summary-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .summary-stat {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+  .summary-stat .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .summary-stat .value {
+    font-size: 22px;
+    color: var(--green);
+    font-weight: 700;
+  }
+  .summary-stat .sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .summary-section {
+    margin-bottom: 16px;
+  }
+  .summary-section-title {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--green);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .summary-list {
+    display: grid;
+    gap: 10px;
+  }
+  .summary-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  .summary-card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .summary-item-name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .summary-item-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .summary-qty {
+    min-width: 64px;
+    text-align: right;
+    color: var(--brown);
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .summary-qty span {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+    display: block;
+  }
+  .summary-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .summary-mini-tag {
+    font-size: 11px;
+    color: var(--green);
+    background: var(--green-pale);
+    border-radius: 999px;
+    padding: 4px 8px;
+  }
+
+
+  .summary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .summary-btn {
+    border: none;
+    background: var(--green);
+    color: white;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .summary-btn.secondary {
+    background: white;
+    color: var(--green);
+    border: 1px solid var(--green-light);
+  }
+  .summary-btn:hover { opacity: .92; }
+  .summary-textbox {
+    width: 100%;
+    min-height: 180px;
+    margin-top: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    resize: vertical;
+    background: #fff;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.7;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .summary-caption {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
   /* scrollbar */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -421,22 +591,23 @@
 <div id="nameScreen">
   <div class="name-card">
     <div class="brand">龍 角</div>
-    <div class="sub">DRAGON HORN × 共同點餐</div>
+    <div class="sub">感謝自己人 × 臨別前，我們乾一杯 :) </div>
     <div style="margin-bottom:16px;padding:10px 14px;background:#e8f0ea;border-radius:10px;color:#3a6b4a;font-size:13px;line-height:1.6">
-      🎉 <strong>0326 鄉下憨人感謝</strong><br>
-      × 通報應變組<br>
+       <strong> 所有的善意與幫忙，銘記在心!   </strong><br>
+      × 聊表謝意 × 祝福 <br>
       <span style="font-size:11px;color:#888;margin-top:4px;display:block">用暱稱就好，不用寫全名 😊</span>
     </div>
-    <h2>請輸入你的名字 / 暱稱</h2>
-    <input class="name-input" id="nameInput" placeholder="例如：小明、Morgan…" maxlength="10">
+    <h2>請輸入你的名字/暱稱</h2>
+    <input class="name-input" id="nameInput" placeholder="例如：王小明、Morgan…" maxlength="10">
+    <input class="name-input" id="passInput" type="password" inputmode="numeric" placeholder="請輸入入場密碼" maxlength="4" style="margin-top:10px">
     <button class="btn-enter" onclick="enterApp()">進入點餐 🧋</button>
-    <p class="hint">輸入後大家的訂單會即時同步顯示</p>
+    <p class="hint">入場密碼:Morgan桌機後4碼，26下班前收單 <br><span style="font-size:11px;color:#999">小tips:送單後可直接離開，如需調整按x後重設菜單即可~。  版本：2026-03-26-v6-base-restored-dragon-split</span></p>
   </div>
 </div>
 
 <!-- HEADER -->
 <header>
-  <div class="logo">龍角 DRAGON HORN<span>共同點餐 × 即時同步</span></div>
+  <div class="logo">龍角 DRAGON HORN<span>歡迎點單 × 聊表心意</span></div>
   <div class="header-right">
     <span><span class="live-dot"></span></span>
     <span class="user-badge" id="userBadge">…</span>
@@ -448,6 +619,7 @@
   <div class="tab active" onclick="switchTab('menu', this)">📋 菜單</div>
   <div class="tab" onclick="switchTab('my', this)">🧋 我的訂單 <span class="badge" id="myBadge" style="display:none">0</span></div>
   <div class="tab" onclick="switchTab('all', this)">👥 所有訂單 <span class="badge" id="allBadge" style="display:none">0</span></div>
+  <div class="tab" onclick="switchTab('summary', this)">📊 點餐累計</div>
 </div>
 
 <!-- MENU VIEW -->
@@ -458,6 +630,9 @@
 
 <!-- ALL ORDERS VIEW -->
 <div id="allView" style="display:none"></div>
+
+<!-- SUMMARY VIEW -->
+<div id="summaryView" style="display:none"></div>
 
 <!-- STICKY CART BUTTON -->
 <button class="sticky-cart" id="cartBtn" onclick="switchTabByName('my')" style="display:none">
@@ -525,6 +700,8 @@
 </div>
 
 <script>
+const APP_VERSION = "2026-03-26-v6-base-restored-dragon-split";
+console.log("DragonHorn app version:", APP_VERSION);
 const MENU = [
   {
     cat: "好茶", sub: "Tea", emoji: "🍵",
@@ -538,7 +715,8 @@ const MENU = [
       { name: "春橙桂花", en: "Osmanthus Green Tea", prices: {M:35,L:40} },
       { name: "桂香春露", en: "Osmanthus Tea", prices: {M:35,L:40}, tags:["冰量固定"] },
       { name: "鑑湄凍茶", en: "Tea with Coffee Jelly", prices: {M:45,L:50}, tags:["最佳搭檔"] },
-      { name: "龍角凍茶", en: "Special Tea with Osmanthus Jelly", prices: {M:50,L:55}, tags:["冰量固定"] },
+      { name: "龍角凍茶（咖啡）", en: "Special Tea with Coffee Jelly", prices: {M:50,L:55}, tags:["冰量固定","含咖啡凍"] },
+      { name: "龍角凍茶（桂花）", en: "Special Tea with Osmanthus Jelly", prices: {M:50,L:55}, tags:["冰量固定","含桂花凍"] },
     ]
   },
   {
@@ -641,7 +819,21 @@ async function fbGet() {
     if (!r.ok) { showToast('❌ 資料庫連線失敗：' + r.status, true); return []; }
     const data = await r.json();
     if (!data) return [];
-    return Object.values(data);
+    return Object.values(data)
+      .filter(o => o && typeof o === 'object')
+      .map(o => ({
+        id: o.id || uid(),
+        person: o.person || '未命名',
+        name: o.name || '未命名飲品',
+        size: o.size || '',
+        sugar: o.sugar || '正常',
+        ice: o.ice || '正常',
+        toppings: Array.isArray(o.toppings) ? o.toppings : [],
+        basePrice: Number(o.basePrice || 0),
+        toppingCost: Number(o.toppingCost || 0),
+        total: Number(o.total || o.basePrice || 0),
+        ts: Number(o.ts || Date.now())
+      }));
   } catch(e) {
     showToast('❌ 無法連線 Firebase，請檢查網路', true);
     console.error(e); return [];
@@ -664,8 +856,18 @@ async function fbAdd(order) {
 }
 async function fbDelete(id) {
   try {
-    await fetch(`${FIREBASE_URL}/orders/${id}.json`, { method: 'DELETE' });
-  } catch(e) { console.error(e); }
+    const r = await fetch(`${FIREBASE_URL}/orders/${id}.json`, { method: 'DELETE' });
+    if (!r.ok) {
+      showToast('❌ 刪除失敗：' + r.status, true);
+      return false;
+    }
+    showToast('🗑️ 已刪除訂單');
+    return true;
+  } catch(e) {
+    console.error(e);
+    showToast('❌ 刪除失敗，請檢查網路', true);
+    return false;
+  }
 }
 
 // ── STATE ──
@@ -686,8 +888,13 @@ function uid() {
 }
 
 // ── INIT ──
+const ACCESS_PASSWORD = "8681";
+
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') enterApp();
+  });
+  document.getElementById('passInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') enterApp();
   });
   renderMenu();
@@ -696,7 +903,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function enterApp() {
   const n = document.getElementById('nameInput').value.trim();
+  const pw = document.getElementById('passInput').value.trim();
   if (!n) { document.getElementById('nameInput').focus(); return; }
+  if (pw !== ACCESS_PASSWORD) {
+    showToast('❌ 密碼錯誤', true);
+    document.getElementById('passInput').focus();
+    document.getElementById('passInput').select();
+    return;
+  }
   myName = n;
   document.getElementById('userBadge').textContent = '👤 ' + n;
   document.getElementById('nameScreen').style.display = 'none';
@@ -705,6 +919,8 @@ function enterApp() {
 
 // ── TABS ──
 let currentTab = 'menu';
+let cachedOrders = [];
+let currentExportMode = 'simple';
 function switchTab(tab, el) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -712,11 +928,12 @@ function switchTab(tab, el) {
   document.getElementById('menuView').style.display = tab === 'menu' ? 'block' : 'none';
   document.getElementById('myView').style.display = tab === 'my' ? 'block' : 'none';
   document.getElementById('allView').style.display = tab === 'all' ? 'block' : 'none';
+  document.getElementById('summaryView').style.display = tab === 'summary' ? 'block' : 'none';
   if (tab !== 'menu') refreshOrders();
 }
 function switchTabByName(tab) {
   const tabs = document.querySelectorAll('.tab');
-  const names = ['menu','my','all'];
+  const names = ['menu','my','all','summary'];
   switchTab(tab, tabs[names.indexOf(tab)]);
 }
 
@@ -734,7 +951,8 @@ function renderMenu() {
           const prices = Object.entries(item.prices);
           const priceStr = prices.map(([s,p]) => `${s} $${p}`).join(' / ');
           const tags = (item.tags||[]).map(t => `<span class="tag ${t.includes('固定')||t.includes('一分')||t.includes('5分')?'warn':''}">${t}</span>`).join('');
-          return `<div class="menu-item" onclick="openModal(${JSON.stringify(JSON.stringify({...item, catSizes: cat.sizes}))})">
+          const modalPayload = JSON.stringify({...item, catSizes: cat.sizes}).replace(/'/g, "&#39;");
+          return `<div class="menu-item" onclick='openModal(${modalPayload})'>
             <div class="plus-btn">+</div>
             <div class="item-name">${item.name}</div>
             ${item.en ? `<div class="item-en">${item.en}</div>` : ''}
@@ -749,14 +967,16 @@ function renderMenu() {
 
 // ── MODAL ──
 let currentCatSizes = ["M","L"];
-function openModal(jsonStr) {
-  if (!myName) return;
-  const item = JSON.parse(jsonStr);
+function openModal(item) {
+  if (!myName) {
+    showToast('請先輸入名字再點餐～', true);
+    document.getElementById('nameInput').focus();
+    return;
+  }
   currentItem = item;
   currentCatSizes = item.catSizes || ["M","L"];
   selectedSize = null;
   selectedToppings = [];
-  selectedSizes = {};
 
   document.getElementById('modalName').textContent = item.name;
   document.getElementById('modalEn').textContent = item.en || '';
@@ -768,6 +988,9 @@ function openModal(jsonStr) {
     .join('');
   document.getElementById('sizeChips').innerHTML = sizeHtml;
 
+  const firstSizeChip = document.querySelector('#sizeChips .chip');
+  if (firstSizeChip) firstSizeChip.classList.add('selected');
+
   // reset sugar/ice
   document.querySelectorAll('#sugarChips .chip').forEach((c,i) => c.classList.toggle('selected', i===0));
   document.querySelectorAll('#iceChips .chip').forEach((c,i) => c.classList.toggle('selected', i===0));
@@ -776,6 +999,7 @@ function openModal(jsonStr) {
   updatePrice();
   document.getElementById('modalOverlay').classList.add('open');
 }
+
 function closeModal(e) {
   if (e.target === document.getElementById('modalOverlay')) {
     document.getElementById('modalOverlay').classList.remove('open');
@@ -841,18 +1065,20 @@ async function addToOrder() {
 // ── ORDERS ──
 async function refreshOrders() {
   const all = await fbGet();
+  cachedOrders = Array.isArray(all) ? all : [];
 
-  const mine = all.filter(o => o.person === myName);
-  renderMyOrders(mine, all);
-  renderAllOrders(all);
-  updateBadges(mine.length, all.length);
+  const mine = cachedOrders.filter(o => o.person === myName);
+  renderMyOrders(mine, cachedOrders);
+  renderAllOrders(cachedOrders);
+  renderSummary(cachedOrders);
+  updateBadges(mine.length, cachedOrders.length);
   updateCartBtn(mine.length);
 }
 
 function renderMyOrders(mine, all) {
   const v = document.getElementById('myView');
   if (mine.length === 0) {
-    v.innerHTML = `<div class="empty-state"><div class="icon">🧋</div><p>還沒有點任何飲料<br>去菜單選一杯吧！</p></div>`;
+    v.innerHTML = `<div class="empty-state"><div class="icon">🧋</div><p>你還沒點餐，不要放過Morgan，<br>去菜單選一杯吧！</p></div>`;
     return;
   }
   const total = mine.reduce((a,o) => a+o.total, 0);
@@ -868,7 +1094,7 @@ function renderMyOrders(mine, all) {
 function renderAllOrders(all) {
   const v = document.getElementById('allView');
   if (all.length === 0) {
-    v.innerHTML = `<div class="empty-state"><div class="icon">👥</div><p>目前還沒有人點餐<br>去菜單選一杯吧！</p></div>`;
+    v.innerHTML = `<div class="empty-state"><div class="icon">👥</div><p>你還沒點餐<br>不要放過Morgan，去菜單選一杯吧！</p></div>`;
     return;
   }
   const grand = all.reduce((a,o) => a+o.total, 0);
@@ -899,25 +1125,309 @@ function renderAllOrders(all) {
 }
 
 function orderCard(o, canDelete) {
-  const tStr = o.toppings.length > 0 ? `，加料：${o.toppings.map(t=>t.split(' ')[0]).join('、')}` : '';
-  const color = getColor(o.person);
+  const toppings = Array.isArray(o.toppings) ? o.toppings : [];
+  const tStr = toppings.length > 0 ? `，加料：${toppings.map(t=>String(t).split(' ')[0]).join('、')}` : '';
+  const color = getColor(o.person || '未命名');
+  const timeText = o.ts ? new Date(o.ts).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}) : '--:--';
   return `
     <div class="order-card">
       ${canDelete ? `<button class="delete-btn" onclick="deleteOrder('${o.id}')">×</button>` : ''}
-      <span class="person-badge" style="background:${color}22;color:${color}">${o.person}</span>
-      <div class="order-item-name">${o.name}（${o.size}）</div>
-      <div class="order-details">${o.sugar}・${o.ice}${tStr}</div>
+      <span class="person-badge" style="background:${color}22;color:${color}">${o.person || '未命名'}</span>
+      <div class="order-item-name">${o.name || '未命名飲品'}${o.size ? `（${o.size}）` : ''}</div>
+      <div class="order-details">${o.sugar || '正常'}・${o.ice || '正常'}${tStr}</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-        <span style="font-size:12px;color:#aaa">${new Date(o.ts).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'})}</span>
-        <div class="order-price">NT$ ${o.total}</div>
+        <span style="font-size:12px;color:#aaa">${timeText}</span>
+        <div class="order-price">NT$ ${Number(o.total || 0)}</div>
       </div>
     </div>
   `;
 }
 
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, s => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[s]));
+}
+
+function getSummaryFilters() {
+  return {
+    person: document.getElementById('summaryPersonFilter')?.value || 'ALL',
+    keyword: (document.getElementById('summaryKeyword')?.value || '').trim().toLowerCase(),
+    sort: document.getElementById('summarySort')?.value || 'qty'
+  };
+}
+
+
+function buildOrderExportText(orders, filters, mode = 'simple') {
+  const list = Array.isArray(orders) ? orders : [];
+  if (!list.length) return '目前沒有可輸出的點餐資料';
+
+  const title = filters?.person && filters.person !== 'ALL'
+    ? `【龍角點餐統整｜${filters.person}】`
+    : '【龍角點餐統整】';
+
+  const map = {};
+  list.forEach(o => {
+    const toppings = Array.isArray(o.toppings) ? o.toppings.map(t => String(t).split(' ')[0]) : [];
+    const toppingText = toppings.length ? `｜加料 ${toppings.join('、')}` : '';
+    const optionText = `｜${o.sugar || '正常'}糖・${o.ice || '正常'}冰${toppingText}`;
+    const key = mode === 'detail'
+      ? `${o.name || '未命名飲品'}||${o.size || ''}||${optionText}`
+      : `${o.name || '未命名飲品'}||${o.size || ''}`;
+    if (!map[key]) {
+      map[key] = {
+        name: o.name || '未命名飲品',
+        size: o.size || '',
+        qty: 0,
+        total: 0,
+        optionText,
+        people: new Set(),
+      };
+    }
+    map[key].qty += 1;
+    map[key].total += Number(o.total || 0);
+    map[key].people.add(o.person || '未命名');
+  });
+
+  const rows = Object.values(map).sort((a,b) => b.qty - a.qty || b.total - a.total || a.name.localeCompare(b.name, 'zh-Hant'));
+  const lines = rows.map((row, idx) => {
+    const sizeText = row.size ? ` ${row.size}` : '';
+    const extra = mode === 'detail' ? `${row.optionText}` : '';
+    return `${idx + 1}. ${row.name}${sizeText} × ${row.qty}${extra}`;
+  });
+
+  const totalQty = list.length;
+  const totalAmount = list.reduce((sum, o) => sum + Number(o.total || 0), 0);
+  const peopleCount = new Set(list.map(o => o.person || '未命名')).size;
+  const keywordLine = filters?.keyword ? `關鍵字：${filters.keyword}` : null;
+
+  return [
+    title,
+    ...keywordLine ? [keywordLine] : [],
+    ...lines,
+    '—'.repeat(16),
+    `共 ${totalQty} 杯｜總額 $${totalAmount}｜${peopleCount} 人`,
+    mode === 'simple' ? '※ 精簡版：依「品項＋尺寸」彙整，甜度冰塊與加料未展開。' : '※ 詳細版：已展開甜度／冰塊／加料差異。'
+  ].join('\n');
+}
+
+function setExportMode(mode) {
+  currentExportMode = mode === 'detail' ? 'detail' : 'simple';
+  renderSummary(cachedOrders);
+}
+
+async function copyOrderExport() {
+  const box = document.getElementById('orderExportText');
+  if (!box) return;
+  const text = box.value || '';
+  if (!text.trim()) {
+    showToast('目前沒有可複製的內容', true);
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast(currentExportMode === 'detail' ? '📋 已複製詳細版下單文字' : '📋 已複製精簡版下單文字');
+  } catch (e) {
+    box.focus();
+    box.select();
+    document.execCommand('copy');
+    showToast('📋 已複製下單文字');
+  }
+}
+
+function renderSummary(all) {
+  const v = document.getElementById('summaryView');
+  const previous = getSummaryFilters();
+
+  const people = [...new Set(all.map(o => o.person).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'zh-Hant'));
+  const personOptions = ['<option value="ALL">全部同事</option>']
+    .concat(people.map(p => `<option value="${escapeHtml(p)}" ${previous.person === p ? 'selected' : ''}>${escapeHtml(p)}</option>`))
+    .join('');
+
+  const baseFiltered = all.filter(o => previous.person === 'ALL' ? true : o.person === previous.person);
+  const filtered = baseFiltered.filter(o => {
+    if (!previous.keyword) return true;
+    const hay = [o.name, o.person, o.size, ...(Array.isArray(o.toppings) ? o.toppings : [])].join(' ').toLowerCase();
+    return hay.includes(previous.keyword);
+  });
+
+  const summaryMap = {};
+  filtered.forEach(o => {
+    const key = o.name || '未命名飲品';
+    if (!summaryMap[key]) {
+      summaryMap[key] = {
+        name: key,
+        qty: 0,
+        total: 0,
+        sizes: {},
+        people: new Set(),
+        toppings: {},
+        orders: []
+      };
+    }
+    const row = summaryMap[key];
+    row.qty += 1;
+    row.total += Number(o.total || 0);
+    row.sizes[o.size || '未指定'] = (row.sizes[o.size || '未指定'] || 0) + 1;
+    row.people.add(o.person || '未命名');
+    (Array.isArray(o.toppings) ? o.toppings : []).forEach(t => {
+      const simple = String(t).split(' ')[0];
+      row.toppings[simple] = (row.toppings[simple] || 0) + 1;
+    });
+    row.orders.push(o);
+  });
+
+  let itemRows = Object.values(summaryMap);
+  if (previous.sort === 'amount') itemRows.sort((a,b) => b.total - a.total || b.qty - a.qty || a.name.localeCompare(b.name, 'zh-Hant'));
+  else if (previous.sort === 'name') itemRows.sort((a,b) => a.name.localeCompare(b.name, 'zh-Hant'));
+  else itemRows.sort((a,b) => b.qty - a.qty || b.total - a.total || a.name.localeCompare(b.name, 'zh-Hant'));
+
+  const sizeRows = [];
+  itemRows.forEach(item => {
+    Object.entries(item.sizes).forEach(([size, qty]) => {
+      const amount = item.orders.filter(o => (o.size || '未指定') === size).reduce((sum, o) => sum + Number(o.total || 0), 0);
+      sizeRows.push({ name: item.name, size, qty, total: amount });
+    });
+  });
+  sizeRows.sort((a,b) => b.qty - a.qty || b.total - a.total || a.name.localeCompare(b.name, 'zh-Hant'));
+
+  const peopleRows = {};
+  filtered.forEach(o => {
+    const person = o.person || '未命名';
+    if (!peopleRows[person]) peopleRows[person] = { person, qty: 0, total: 0 };
+    peopleRows[person].qty += 1;
+    peopleRows[person].total += Number(o.total || 0);
+  });
+  const personSummary = Object.values(peopleRows).sort((a,b) => b.qty - a.qty || b.total - a.total || a.person.localeCompare(b.person, 'zh-Hant'));
+
+  const totalQty = filtered.length;
+  const totalAmount = filtered.reduce((sum, o) => sum + Number(o.total || 0), 0);
+  const uniqueItems = itemRows.length;
+  const uniquePeople = new Set(filtered.map(o => o.person || '未命名')).size;
+  const exportText = buildOrderExportText(filtered, previous, currentExportMode);
+
+  v.innerHTML = `
+    <div class="summary-toolbar">
+      <div class="toolbar-title">📊 點餐累計總覽</div>
+      <div class="filter-grid">
+        <select id="summaryPersonFilter" class="filter-control" onchange="renderSummary(cachedOrders)">
+          ${personOptions}
+        </select>
+        <input id="summaryKeyword" class="filter-control" placeholder="搜尋飲品／人名／尺寸／加料" value="${escapeHtml(previous.keyword)}" oninput="renderSummary(cachedOrders)">
+        <select id="summarySort" class="filter-control" onchange="renderSummary(cachedOrders)">
+          <option value="qty" ${previous.sort === 'qty' ? 'selected' : ''}>依杯數排序</option>
+          <option value="amount" ${previous.sort === 'amount' ? 'selected' : ''}>依金額排序</option>
+          <option value="name" ${previous.sort === 'name' ? 'selected' : ''}>依名稱排序</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="summary-stat-grid">
+      <div class="summary-stat">
+        <div class="label">總杯數</div>
+        <div class="value">${totalQty}</div>
+        <div class="sub">目前篩選結果</div>
+      </div>
+      <div class="summary-stat">
+        <div class="label">總金額</div>
+        <div class="value">$${totalAmount}</div>
+        <div class="sub"> 敲撲滿費用 </div>
+      </div>
+      <div class="summary-stat">
+        <div class="label">品項數</div>
+        <div class="value">${uniqueItems}</div>
+        <div class="sub">飲品種類目前項目</div>
+      </div>
+      <div class="summary-stat">
+        <div class="label">點餐人數</div>
+        <div class="value">${uniquePeople}</div>
+        <div class="sub">下單的人頭</div>
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">📝 給店家下單用</div>
+      <div class="summary-card">
+        <div class="summary-item-meta">謝謝店家，外送請安排於15:00前，謝謝。</div>
+        <div class="summary-actions">
+          <button class="summary-btn ${currentExportMode === 'simple' ? '' : 'secondary'}" onclick="setExportMode('simple')">精簡版</button>
+          <button class="summary-btn ${currentExportMode === 'detail' ? '' : 'secondary'}" onclick="setExportMode('detail')">詳細版</button>
+          <button class="summary-btn secondary" onclick="copyOrderExport()">複製下單文字</button>
+        </div>
+        <textarea id="orderExportText" class="summary-textbox" readonly>${escapeHtml(exportText)}</textarea>
+        <div class="summary-caption">依上方的篩選條件輸出。</div>
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">🧋 品項累計</div>
+      <div class="summary-list">
+        ${itemRows.length ? itemRows.map(item => {
+          const sizeText = Object.entries(item.sizes).map(([size, qty]) => `${size} × ${qty}`).join('／');
+          const topToppings = Object.entries(item.toppings).sort((a,b) => b[1] - a[1]).slice(0,4);
+          return `
+            <div class="summary-card">
+              <div class="summary-card-top">
+                <div>
+                  <div class="summary-item-name">${escapeHtml(item.name)}</div>
+                  <div class="summary-item-meta">
+                    尺寸分布：${escapeHtml(sizeText || '—')}<br>
+                    點餐人：${item.people.size} 人｜平均單價：$${item.qty ? Math.round(item.total / item.qty) : 0}
+                  </div>
+                </div>
+                <div class="summary-qty">${item.qty}<span>杯</span></div>
+              </div>
+              <div class="summary-tags">
+                <span class="summary-mini-tag">合計 $${item.total}</span>
+                ${topToppings.map(([name, qty]) => `<span class="summary-mini-tag">${escapeHtml(name)} × ${qty}</span>`).join('')}
+              </div>
+            </div>
+          `;
+        }).join('') : `<div class="empty-state"><div class="icon">🔎</div><p>這個篩選條件下還沒有資料</p></div>`}
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">🥤 各尺寸幾杯</div>
+      <div class="summary-list">
+        ${sizeRows.length ? sizeRows.map(row => `
+          <div class="summary-card">
+            <div class="summary-card-top">
+              <div>
+                <div class="summary-item-name">${escapeHtml(row.name)}｜${escapeHtml(row.size)}</div>
+                <div class="summary-item-meta">此尺寸累計金額：$${row.total}</div>
+              </div>
+              <div class="summary-qty">${row.qty}<span>杯</span></div>
+            </div>
+          </div>
+        `).join('') : `<div class="empty-state"><div class="icon">🥶</div><p>目前沒有尺寸統計資料</p></div>`}
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-section-title">👥 各自點了幾杯</div>
+      <div class="summary-list">
+        ${personSummary.length ? personSummary.map(row => `
+          <div class="summary-card">
+            <div class="summary-card-top">
+              <div>
+                <div class="summary-item-name" style="color:${getColor(row.person)}">${escapeHtml(row.person)}</div>
+                <div class="summary-item-meta">合計金額：$${row.total}</div>
+              </div>
+              <div class="summary-qty">${row.qty}<span>杯</span></div>
+            </div>
+          </div>
+        `).join('') : `<div class="empty-state"><div class="icon">👀</div><p>還沒有人進來點餐</p></div>`}
+      </div>
+    </div>
+  `;
+}
+
+
 async function deleteOrder(id) {
-  await fbDelete(id);
-  refreshOrders();
+  const ok = await fbDelete(id);
+  if (ok) refreshOrders();
 }
 
 function updateBadges(myCount, allCount) {
