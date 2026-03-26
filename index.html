@@ -1171,7 +1171,7 @@ function buildOrderExportText(orders, filters, mode = 'simple') {
   list.forEach(o => {
     const toppings = Array.isArray(o.toppings) ? o.toppings.map(t => String(t).split(' ')[0]) : [];
     const toppingText = toppings.length ? `｜加料 ${toppings.join('、')}` : '';
-    const optionText = `｜${o.sugar || '正常'}糖・${o.ice || '正常'}冰${toppingText}`;
+    const optionText = `｜${o.sugar || '正常'}・${o.ice || '正常'}${toppingText}`;
     const key = mode === 'detail'
       ? `${o.name || '未命名飲品'}||${o.size || ''}||${optionText}`
       : `${o.name || '未命名飲品'}||${o.size || ''}`;
